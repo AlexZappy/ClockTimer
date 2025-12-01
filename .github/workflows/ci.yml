@@ -32,7 +32,7 @@ jobs:
       - name: Build examples for ${{ matrix.board }}
         run: |
           pio ci \
-            examples/basic_demo/basic_demo.cpp \
-            examples/multi_clock_demo/multi_clock_demo.cpp \
+            examples/basic_clock_demo/basic_clock_demo.ino \
+            examples/multi_clock_demo/multi_clock_demo.ino \
             -l . \
             -b ${{ matrix.board }}
