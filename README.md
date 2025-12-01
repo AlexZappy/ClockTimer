@@ -4,6 +4,8 @@
 [![license](https://img.shields.io/badge/license-GPL--3.0-green.svg)](LICENSE)
 [![arduino](https://img.shields.io/badge/framework-Arduino-00979D.svg)](https://www.arduino.cc/)
 [![platformio](https://img.shields.io/badge/PlatformIO-compatible-orange.svg)](https://platformio.org/)
+[![PlatformIO Registry](https://img.shields.io/badge/PlatformIO-Registry-yellow.svg)](https://registry.platformio.org/libraries/alexzappy/ClockTimer)
+[![CI](https://github.com/AlexZappy/ClockTimer/actions/workflows/ci.yml/badge.svg)](https://github.com/AlexZappy/ClockTimer/actions/workflows/ci.yml)
 
 `ClockTimer` is a small utility class for Arduino that implements a **non-blocking periodic clock** with configurable period and duty cycle, using `millis()` as the time base.
 
@@ -153,6 +155,7 @@ Notes:
 See:
 
 ```text
+examples/multi_clock_demo/multi_clock_demo.ino
 examples/multi_clock_demo/multi_clock_demo.cpp
 ```
 

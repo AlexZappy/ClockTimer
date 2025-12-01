@@ -1,0 +1,38 @@
+name: CI - Build ClockTimer
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        board:
+          - uno
+          - esp32dev
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install PlatformIO
+        run: pip install platformio
+
+      - name: Build examples for ${{ matrix.board }}
+        run: |
+          pio ci \
+            examples/basic_demo/basic_demo.cpp \
+            examples/multi_clock_demo/multi_clock_demo.cpp \
+            -l . \
+            -b ${{ matrix.board }}
