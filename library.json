@@ -1,0 +1,33 @@
+{
+    "name": "ClockTimer",
+    "version": "1.0.0",
+    "description": "Non-blocking software clock with period and duty-cycle control based on millis(), with internal duty clamping.",
+    "keywords": [
+        "timer",
+        "clock",
+        "duty-cycle",
+        "non-blocking",
+        "millis"
+    ],
+    "authors": [
+        {
+            "name": "Alex Zappaterra",
+            "maintainer": true
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/AlexZappy/ClockTimer.git"
+    },
+    "homepage": "https://github.com/AlexZappy/ClockTimer",
+    "license": "GPL-3.0",
+    "frameworks": [
+        "arduino"
+    ],
+    "platforms": [
+        "*"
+    ],
+    "headers": [
+        "ClockTimer.h"
+    ]
+}
