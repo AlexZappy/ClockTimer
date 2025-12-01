@@ -6,6 +6,23 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## Planned for 1.1.0
+
+### Proposed Enhancements
+
+- Add `getPeriodMs()` and `getDutyPerc()` accessors.
+- Optional phase callbacks:
+  - `onEnterOnPhase()`
+  - `onEnterOffPhase()`
+- Optional asynchronous mode (`update()` auto-calls inside methods).
+- High-level helper functions:
+  - `setFrequencyHz()`
+  - `setDuty0to1()`
+- Example: LED fading using variable duty cycle.
+- Improved unit tests once Arduino CI is upgraded.
+
+---
+
 ## [1.0.0] - 2025-12-01
 
 ### Added
