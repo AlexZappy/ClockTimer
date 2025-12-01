@@ -332,12 +332,28 @@ ClockTimer(uint32_t periodMs, uint8_t dutyPerc = 50)
 ### Debugging Tips
 
 ```cpp
-// Add serial debugging
 void debugTimer(ClockTimer &t) {
-    Serial.print("Enabled: "); Serial.print(t.isEnabled());
-    Serial.print(" | State: "); Serial.print(t.isOn() ? "ON" : "OFF");
-    Serial.print(" | Period: "); Serial.print(_periodMs);
-    Serial.print(" | Duty: "); Serial.println(_dutyCyclePerc);
+    Serial.print("Enabled: "); 
+    Serial.print(t.isEnabled() ? "YES" : "NO");
+    
+    Serial.print(" | State: "); 
+    Serial.print(t.isOn() ? "ON" : "OFF");
+    
+    Serial.print(" | Period: "); 
+    Serial.print(t.getPeriodMs());
+    Serial.print("ms");
+    
+    Serial.print(" | Duty: "); 
+    Serial.print(t.getDutyPerc());
+    Serial.print("%");
+    
+    Serial.print(" | ON Time: "); 
+    Serial.print(t.getOnTime());
+    Serial.print("ms");
+    
+    Serial.print(" | OFF Time: "); 
+    Serial.print(t.getOffTime());
+    Serial.println("ms");
 }
 ```
 
@@ -364,7 +380,7 @@ GNU General Public License v3.0 - see [LICENSE](LICENSE) file for details.
 
 ## Support
 
-- **Documentation**: [GitHub Wiki](https://github.com/AlexZappy/ClockTimer/wiki)
+- **Documentation**: [GitHub Docs](https://github.com/AlexZappy/ClockTimer/tree/main/docs)
 - **Issues**: [GitHub Issues](https://github.com/AlexZappy/ClockTimer/issues)
 - **Examples**: `/examples` folder in the library
 
