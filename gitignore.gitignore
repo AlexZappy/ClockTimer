@@ -26,3 +26,6 @@
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+# Personal_File
+.personal_file

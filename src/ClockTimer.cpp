@@ -18,7 +18,7 @@
 
 #include <ClockTimer.h>
 
-// Costruttore: inizializza il timer disattivato con il periodo richiesto
+// Constructor: initializes timer as disabled with the required period
 ClockTimer::ClockTimer( uint32_t period, uint8_t dutyPerc):
     _enabled(false),
     _periodMs(period),
@@ -33,11 +33,11 @@ ClockTimer::ClockTimer( uint32_t period, uint8_t dutyPerc):
 }
 
 //=====================================================================
-// funzioni private
+// private functions
 //=====================================================================
 
-// deve aggiornare i valori di _onTimePeriod e _offTimePeriod
-// _onTimePeriod = _periodMs * _dutyCyclePerc(normalizzato) quindi da 0.1..0.9
+// Must update _onTimePeriod and _offTimePeriod values
+// _onTimePeriod = _periodMs * _dutyCyclePerc(normalized) so between 0.1..0.9
 // _offTimePeriod = _periodMs - onTimePeriod
 void ClockTimer::updateTiming(){
     float normVal = normalizedDuty(_dutyCyclePerc);
@@ -45,12 +45,12 @@ void ClockTimer::updateTiming(){
     _offTimePeriod = _periodMs - _onTimePeriod;
 }
 
-// deve normalizzare il valore tra 0.1 e 0.9 %
-// quindi dutyCyclePerc / 100 --> valore da arrotondare
+// Must normalize value between 0.1 and 0.9 %
+// so dutyCyclePerc / 100 --> value to round
 float ClockTimer::normalizedDuty(float valuePerc)
-{   // calcolo valore di duty-cycle ancora da clampare
+{   // Calculate duty-cycle value still to clamp
     float mappedValue = (valuePerc / 100);
-    // Clamping per evitare fuori range
+    // Clamping to avoid out-of-range values
     if (mappedValue < 0.1) mappedValue = 0.1;
     if (mappedValue > 0.9) mappedValue = 0.9;
 
@@ -58,12 +58,12 @@ float ClockTimer::normalizedDuty(float valuePerc)
 }
 
 //=====================================================================
-// funzioni pubbliche
+// public functions
 //=====================================================================
 
-// in setup va questa
+// This goes in setup
 void ClockTimer::start(uint32_t now)
-{   // attivo il timer e inizializzo lastTickMs
+{   // Activate timer and initialize lastTickMs
     _enabled = true;
     _isOn = true;
     _lastTickMs = now;
@@ -76,23 +76,23 @@ void ClockTimer::start(){
 }
 
 void ClockTimer::stop()
-{   // fermo il timer
+{   // Stop timer
     _enabled = false;
     _isOn = false;
     _phaseStartMs = 0UL;
 }
 
-// va in LOOP ES. 
+// Goes in LOOP. Example: 
 // clock.update(millis());
 // digitalWrite(LED, clock.isOn() ? HIGH : LOW);
 
 void ClockTimer::update(uint32_t now)
-{   // vedo se sono nella fase ON o OFF dell'onda
-    // confronto il temnpo trascorso con  _onTimePeriod o _offTimePeriod
-    // cambio la fase quando serve
-    // aggiorno _isOn e _phaseStartMs
+{   // Check if we're in the ON or OFF phase of the wave
+    // Compare elapsed time with _onTimePeriod or _offTimePeriod
+    // Change phase when needed
+    // Update _isOn and _phaseStartMs
     if (_enabled){
-        uint32_t elapsed = now - _phaseStartMs; // calcolo il tempo trascorso
+        uint32_t elapsed = now - _phaseStartMs; // Calculate elapsed time
         if (!_isOn)
         {
             if (elapsed >= _offTimePeriod){
@@ -114,18 +114,18 @@ void ClockTimer::update(){
     update(now);
 }
 
-// Da richiamare in loop, es.: if (timer1.tick(millis())) { ... }
+// To be called in loop, e.g.: if (timer1.tick(millis())) { ... }
 bool ClockTimer::tick(uint32_t _now)
 {
-    // Caso 1: timer disattivato → esci subito
+    // Case 1: timer disabled → exit immediately
     if (!_enabled) 
         return false;
 
-    // Caso 2: periodo non scaduto → esci subito
+    // Case 2: period not expired → exit immediately
     if (_now - _lastTickMs < _periodMs) 
         return false;
 
-    // Caso 3: periodo scaduto → aggiorna e segnala
+    // Case 3: period expired → update and signal
     _lastTickMs = _now;
     return true;
 }
@@ -136,28 +136,28 @@ bool ClockTimer::tick(){
 }
 
 
-// Imposta il duty cycle in percentuale (0–100) e ricalcola on/off.
+// Set duty cycle percentage (0–100) and recalculate on/off.
 void ClockTimer::setDutyPerc(uint8_t newDutyCyclePerc)
 {
     _dutyCyclePerc = newDutyCyclePerc;
     updateTiming();
 }
 
-// Aggiorna il periodo complessivo in millisecondi (ricalcola anche on/off).
+// Update overall period in milliseconds (also recalculates on/off).
 void ClockTimer::setPeriodMs(uint32_t newPeriodMs)
 {
     _periodMs = newPeriodMs;
     updateTiming();
 }
 
-// Ritorna true se il clock è abilitato.
+// Return true if clock is enabled.
 bool ClockTimer::isEnabled() const
 {
  return _enabled;  
 }
 
-// Ritorna true se, allo stato attuale, l'onda è nella fase ON.
+// Return true if, at current state, wave is in ON phase.
 bool ClockTimer::isOn() const
 {
     return _isOn;
-}    
+}

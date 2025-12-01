@@ -24,54 +24,54 @@
 // ============================================================================
 class ClockTimer {
 private:
-    bool     _enabled;         // stato generale del clock (abilitato/disabilitato)
-    bool     _isOn;            // true = fase ON dell'onda, false = fase OFF
-    uint32_t _phaseStartMs;    // momento in cui è iniziata l'attuale fase (ON o OFF)
-    uint32_t _lastTickMs;      // ultimo istante in cui è stato rilevato il "tick" di periodo
-    uint32_t _periodMs;        // periodo complessivo dell'onda in millisecondi
-    uint32_t _onTimePeriod;    // durata della fase ON, ricavata da periodo + duty
-    uint32_t _offTimePeriod;   // durata della fase OFF, ricavata da periodo + duty
-    uint8_t  _dutyCyclePerc;   // ultima % di duty cycle ricevuta dall'utente (0–100)    
+    bool     _enabled;         // general clock state (enabled/disabled)
+    bool     _isOn;            // true = ON phase of wave, false = OFF phase
+    uint32_t _phaseStartMs;    // moment when the current phase (ON or OFF) started
+    uint32_t _lastTickMs;      // last instant when the period "tick" was detected
+    uint32_t _periodMs;        // overall wave period in milliseconds
+    uint32_t _onTimePeriod;    // ON phase duration, derived from period + duty
+    uint32_t _offTimePeriod;   // OFF phase duration, derived from period + duty
+    uint8_t  _dutyCyclePerc;   // last duty cycle percentage received from user (0–100)
 
-    // Converte una percentuale di duty (0–100) in un valore normalizzato [0.0–1.0],
-    // applicando il clamp interno (es. min 10%, max 90%).
+    // Converts a duty percentage (0–100) to a normalized value [0.0–1.0],
+    // applying internal clamping (e.g., min 10%, max 90%).
     float normalizedDuty(float dutyCyclePerc);
 
-    // ricalcola _onTimePeriod e _offTimePeriod da _periodMs + _dutyCyclePerc
-    // con valori normalizzati
+    // Recalculates _onTimePeriod and _offTimePeriod from _periodMs + _dutyCyclePerc
+    // using normalized values
     void updateTiming();
 
 public:
-    // Costruttore:
-    // periodMs  -> periodo complessivo in millisecondi
-    // dutyPerc  -> duty cycle in percentuale (0–100), default 50%
+    // Constructor:
+    // periodMs  -> overall period in milliseconds
+    // dutyPerc  -> duty cycle percentage (0–100), default 50%
     ClockTimer(uint32_t periodMs, uint8_t dutyPerc = 50U);
 
-    // Abilita il clock e sincronizza la fase iniziale rispetto al tempo "now".
+    // Enables the clock and synchronizes the initial phase relative to time "now".
     void start(uint32_t now);
     void start();
 
-    // Disabilita il clock (l'onda viene "congelata" in stato OFF).
+    // Disables the clock (wave is "frozen" in OFF state).
     void stop();
 
-    // Aggiorna il periodo complessivo in millisecondi (ricalcola anche on/off).
+    // Updates the overall period in milliseconds (also recalculates on/off).
     void setPeriodMs(uint32_t newPeriodMs);
 
-    // Imposta il duty cycle in percentuale (0–100) e ricalcola on/off.
+    // Sets the duty cycle percentage (0–100) and recalculates on/off.
     void setDutyPerc(uint8_t newDutyCyclePerc);
 
-    // Aggiorna lo stato dell’onda in base al tempo attuale.
-    // Gestisce automaticamente le transizioni ON → OFF e OFF → ON.
+    // Updates the wave state based on current time.
+    // Automatically handles ON → OFF and OFF → ON transitions.
     void update(uint32_t now);
     void update();
 
-    // Ritorna true una volta ogni periodo completo (evento di "fine periodo").
+    // Returns true once every complete period ("end of period" event).
     bool tick(uint32_t now);
     bool tick();
 
-    // Ritorna true se il clock è abilitato.
+    // Returns true if the clock is enabled.
     bool isEnabled() const;
 
-    // Ritorna true se, allo stato attuale, l'onda è nella fase ON.
+    // Returns true if, at current state, the wave is in the ON phase.
     bool isOn() const;
 };
