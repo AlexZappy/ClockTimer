@@ -33,6 +33,9 @@ jobs:
         run: |
           pio ci \
             examples/basic_clock_demo/basic_clock_demo.ino \
+            examples/basic_clock_demo/basic_clock_demo.cpp \
             examples/multi_clock_demo/multi_clock_demo.ino \
+            examples/multi_clock_demo/multi_clock_demo.cpp \
             -l . \
             -b ${{ matrix.board }}
+
