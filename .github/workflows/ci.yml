@@ -31,11 +31,8 @@ jobs:
 
       - name: Build examples for ${{ matrix.board }}
         run: |
-          pio ci \
-            examples/basic_clock_demo/basic_clock_demo.ino \
-            examples/basic_clock_demo/basic_clock_demo.cpp \
-            examples/multi_clock_demo/multi_clock_demo.ino \
-            examples/multi_clock_demo/multi_clock_demo.cpp \
-            -l . \
-            -b ${{ matrix.board }}
-
+          echo "Building basic_clock_demo for ${{ matrix.board }}"
+          pio ci -l . -b ${{ matrix.board }} examples/basic_clock_demo/basic_clock_demo.cpp
+          
+          echo "Building multi_clock_demo for ${{ matrix.board }}"
+          pio ci -l . -b ${{ matrix.board }} examples/multi_clock_demo/multi_clock_demo.cpp
