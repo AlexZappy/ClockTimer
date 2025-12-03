@@ -18,16 +18,16 @@
 #include <ClockTimer.h>
 
 // Constructor: initializes timer as disabled with the required period
-ClockTimer::ClockTimer(uint32_t period, uint8_t dutyPerc):
+ClockTimer::ClockTimer(uint32_t period, uint8_t dutyPerc) :
     _enabled(false),
-    _periodMs(period),
-    _dutyCyclePerc(dutyPerc),
     _isOn(false),
     _phaseStartMs(0UL),
     _lastTickMs(0UL),
+    _periodMs(period),
     _onTimePeriod(0UL),
     _offTimePeriod(0UL),
-    _normVal(0.0f)  // Initialize normalized duty value
+    _dutyCyclePerc(dutyPerc),
+    _normVal(0.0f)
 {
     updateTiming();
 }
@@ -48,9 +48,9 @@ void ClockTimer::updateTiming(){
 // Normalizes duty cycle percentage to a value between 0.1 and 0.9
 // Converts percentage (0-100) to decimal (0.0-1.0) and applies clamping
 // Returns: normalized value between 0.1 and 0.9 inclusive
-float ClockTimer::normalizedDuty(float valuePerc)
+float ClockTimer::normalizedDuty(float Perc)
 {   
-    float normalized = valuePerc / 100.0f;  // Convert percentage to decimal
+    float normalized = Perc / 100.0f;  // Convert percentage to decimal
     
     // Apply clamping to ensure duty cycle stays within operational bounds
     if (normalized < 0.1f) normalized = 0.1f;
@@ -75,7 +75,7 @@ void ClockTimer::start(uint32_t now)
 
 // Starts the timer using current system time from millis()
 void ClockTimer::start(){
-    unsigned long now = millis();
+    uint32_t now = millis();
     start(now);
 }
 
@@ -115,7 +115,7 @@ void ClockTimer::update(uint32_t now)
 
 // Updates timer state using current system time from millis()
 void ClockTimer::update(){
-    unsigned long now = millis();
+    uint32_t now = millis();
     update(now);
 }
 
@@ -139,7 +139,7 @@ bool ClockTimer::tick(uint32_t _now)
 
 // Checks for period completion using current system time from millis()
 bool ClockTimer::tick(){
-    unsigned long now = millis();
+    uint32_t now = millis();
     return tick(now);
 }
 
@@ -155,7 +155,11 @@ void ClockTimer::setDutyPerc(uint8_t newDutyCyclePerc)
 // Parameters: newPeriodMs - complete cycle period in milliseconds
 void ClockTimer::setPeriodMs(uint32_t newPeriodMs)
 {
-    _periodMs = newPeriodMs;
+    if (newPeriodMs == 0) {
+        _periodMs = 1;  // o un valore minimo sensato, es: 10
+    } else {
+        _periodMs = newPeriodMs;
+    }
     updateTiming();
 }
 

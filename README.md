@@ -329,6 +329,10 @@ ClockTimer(uint32_t periodMs, uint8_t dutyPerc = 50)
    }
    ```
 
+4. **Note**
+
+    - **_Period values of 0 ms are not allowed; values are internally clamped to at least 1 ms._**
+
 ### Debugging Tips
 
 ```cpp
